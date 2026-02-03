@@ -64,10 +64,12 @@
             margin-bottom: 10px;
         }
 
-        p {
+        /* The question text */
+        .question-text {
             color: #888;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             margin-bottom: 30px;
+            font-weight: bold;
         }
 
         .gif-container img {
@@ -141,10 +143,10 @@
         </div>
         
         <h1>Radwa...</h1>
-        <p>I have a very serious question to ask you. 🥺</p>
+        <p class="question-text">Will you be my Valentine? 🌹</p>
         
         <div class="buttons">
-            <button id="yesBtn">Yes, be your Valentine!</button>
+            <button id="yesBtn">Yes!</button>
             <button id="noBtn">No way</button>
         </div>
     </div>
@@ -159,7 +161,10 @@
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const header = document.querySelector('h1');
-        const paragraph = document.querySelector('p');
+        
+        // FIXED SELECTOR: Now we grab the specific class .question-text
+        const paragraph = document.querySelector('.question-text');
+        
         const gif = document.querySelector('.gif-container img');
         const overlay = document.getElementById('overlay');
         const audio = document.getElementById("bg-music");
@@ -167,19 +172,16 @@
         let scale = 1;
 
         // --- MUSIC LOGIC ---
-        // We only remove the overlay if the music successfully starts
         overlay.addEventListener('click', () => {
             audio.volume = 0.5;
             audio.play()
                 .then(() => {
-                    // Success! Music is playing. Remove overlay.
                     overlay.style.opacity = '0';
                     setTimeout(() => {
                         overlay.style.display = 'none';
                     }, 1000);
                 })
                 .catch((error) => {
-                    // Auto-play failed (usually browser restriction or missing file)
                     console.log("Playback failed:", error);
                     alert("Click the screen again to start the music!");
                 });
@@ -194,10 +196,12 @@
                 colors: ['#ff6b6b', '#ffb7b2', '#ffe6e6']
             });
 
-            header.innerHTML = "Yay! ❤️";
-            paragraph.innerHTML = "Best decision ever! See you on the 14th! 🥰";
+            // Update UI
+            header.innerHTML = "YAYYY! ❤️";
+            paragraph.innerHTML = "Best decision ever! <br> See you on the 14th! 🥰";
             gif.src = "https://media.giphy.com/media/T86i6yDyOYz7J6dPhf/giphy.gif"; 
             
+            // Hide buttons
             document.querySelector('.buttons').style.display = 'none';
         });
 
