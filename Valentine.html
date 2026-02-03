@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hey Radwa! 💌</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffe6e6;
+            font-family: 'Fredoka', sans-serif;
+            overflow: hidden;
+        }
+
+        /* OVERLAY STYLES */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffb7b2;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            cursor: pointer;
+            transition: opacity 1s ease;
+        }
+        
+        #overlay h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        #overlay p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #888;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .gif-container img {
+            width: 200px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Fredoka', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff6b6b;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        #noBtn {
+            background-color: #e0e0e0;
+            color: #555;
+            position: relative;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ffb7b2;
+            opacity: 0.6;
+            animation: float 6s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(110vh) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <h1>Tap to Open 🎁</h1>
+        <p>Turn up the volume! 🎵</p>
+    </div>
+
+    <div id="heart-container"></div>
+
+    <div class="container">
+        <div class="gif-container">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExajN4eHJ4bnZ5eW93bnZ5eW93bnZ5eW93bnZ5eW93bnZ5eW93biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute Bear">
+        </div>
+        
+        <h1>Radwa...</h1>
+        <p>I have a very serious question to ask you. 🥺</p>
+        
+        <div class="buttons">
+            <button id="yesBtn">Yes, be your Valentine!</button>
+            <button id="noBtn">No way</button>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+        <source src="https://github.com/ecemgo/mini-samples-great-tricks/raw/main/song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const header = document.querySelector('h1');
+        const paragraph = document.querySelector('p');
+        const gif = document.querySelector('.gif-container img');
+        const overlay = document.getElementById('overlay');
+        const audio = document.getElementById("bg-music");
+
+        let scale = 1;
+
+        // --- MUSIC LOGIC ---
+        // We only remove the overlay if the music successfully starts
+        overlay.addEventListener('click', () => {
+            audio.volume = 0.5;
+            audio.play()
+                .then(() => {
+                    // Success! Music is playing. Remove overlay.
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                    }, 1000);
+                })
+                .catch((error) => {
+                    // Auto-play failed (usually browser restriction or missing file)
+                    console.log("Playback failed:", error);
+                    alert("Click the screen again to start the music!");
+                });
+        });
+
+        // --- INTERACTION: CLICK YES ---
+        yesBtn.addEventListener('click', () => {
+            confetti({
+                particleCount: 200,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff6b6b', '#ffb7b2', '#ffe6e6']
+            });
+
+            header.innerHTML = "Yay! ❤️";
+            paragraph.innerHTML = "Best decision ever! See you on the 14th! 🥰";
+            gif.src = "https://media.giphy.com/media/T86i6yDyOYz7J6dPhf/giphy.gif"; 
+            
+            document.querySelector('.buttons').style.display = 'none';
+        });
+
+        // --- INTERACTION: HOVER NO ---
+        const funnyPhrases = [
+            "Are you sure? 🤨", 
+            "Radwa please... 🥺", 
+            "Don't do this to me!", 
+            "I'm gonna cry... 😭", 
+            "You're breaking my heart! 💔", 
+            "I'll buy you chocolate! 🍫", 
+            "Pretty please? 🎀",
+            "What about shawarma? 🥙", 
+            "Stop playing hard to get!",
+            "No is not an option! 😡",
+            "Just click YES already! ❤️"
+        ];
+        
+        let phraseIndex = 0;
+
+        noBtn.addEventListener('mouseover', () => {
+            scale += 0.5; 
+            yesBtn.style.transform = `scale(${scale})`;
+            
+            noBtn.innerText = funnyPhrases[phraseIndex % funnyPhrases.length];
+            phraseIndex++;
+
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth) - window.innerWidth / 2;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight) - window.innerHeight / 2;
+            
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+            yesBtn.style.fontWeight = 'bold';
+        });
+
+        // --- BACKGROUND HEARTS ---
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            
+            document.getElementById('heart-container').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
